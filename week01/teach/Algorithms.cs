@@ -68,7 +68,8 @@ public static class Algorithms {
         var count = 0;
         var start = 0;
         var end = size - 1;
-        while (start <= end) {
+        while (start <= end) 
+        {
             var middle = (end - start) / 2 + start;
             start = middle + 1;
             count += 1;

@@ -10,15 +10,21 @@ public static class Divisors {
     }
 
     /// <summary>
-    /// Create a list of all divisors for a number including 1
-    /// and excluding the number itself. Modulo will be used
-    /// to test divisibility.
+    /// Create a list of all divisors for a number including 1 (line 20)
+    /// and excluding the number itself. Modulo will be used (line 21)
+    /// to test divisibility. (line 23)
     /// </summary>
-    /// <param name="number">The number to find the divisor</param>
-    /// <returns>List of divisors</returns>
+    /// <param name="number">The number to find the divisor</param> (line 23)
+    /// <returns>List of divisors</returns> (line 28)
     private static List<int> FindDivisors(int number) {
         List<int> results = new();
-        // TODO problem 1
+        for (int i = 1; i < number; i++)
+        {
+            if (number % i == 0)
+            {
+                results.Add(i);
+            }
+        }
         return results;
     }
 }
