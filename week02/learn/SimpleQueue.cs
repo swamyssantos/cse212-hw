@@ -10,7 +10,7 @@
         queue.Enqueue(100);
         var value = queue.Dequeue();
         Console.WriteLine(value);
-        // Defect(s) Found:
+        // Defect(s) Found: there have a wrong index in Dequeue method, it should be 0 instead of 1.
 
         Console.WriteLine("------------");
 
@@ -28,7 +28,7 @@
         Console.WriteLine(value);
         value = queue.Dequeue();
         Console.WriteLine(value);
-        // Defect(s) Found: 
+        // Defect(s) Found: there, the enqueue and dequeue order is not correct.
 
         Console.WriteLine("------------");
 
@@ -44,7 +44,7 @@
         catch (IndexOutOfRangeException) {
             Console.WriteLine("I got the exception as expected.");
         }
-        // Defect(s) Found: 
+        // Defect(s) Found: There haven't any defect found in this test case.
     }
 
     private readonly List<int> _queue = new();
@@ -54,7 +54,7 @@
     /// </summary>
     /// <param name="value">Integer value to add to the queue</param>
     private void Enqueue(int value) {
-        _queue.Insert(0, value);
+        _queue.Add(value);       // there is "_queue.Add(value)"   
     }
 
     /// <summary>
@@ -66,8 +66,13 @@
         if (_queue.Count <= 0)
             throw new IndexOutOfRangeException();
 
-        var value = _queue[1];
-        _queue.RemoveAt(1);
+        var value = _queue[0]; // there is "_queue[0]" to get the first value in the queue
+        _queue.RemoveAt(0); // there is "_queue.RemoveAt(0)" to remove the first value in the queue
         return value;
     }
 }
+
+
+ // in line 57: i replaced "_queue.Insert(0, value)" with "_queue.Add(value)" to add the value to the end of the queue instead of the beginning.
+ // in line 69: i replaced "_queue[1]" with "_queue[0]" to get the first value in the queue
+ // in line 70: i replaced "_queue.RemoveAt(1)" with "_queue.RemoveAt(0)" to remove the first value in the queue    
