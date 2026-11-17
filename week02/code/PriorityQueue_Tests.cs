@@ -8,7 +8,7 @@ public class PriorityQueueTests
     [TestMethod]
     // Scenario: 
     // Expected Result: 
-    // Defect(s) Found: 
+    // Defect(s) Found: Corrected the defect in the Dequeue method to remove the item from Queue.
     public void TestPriorityQueue_1()
     {
         var priorityQueue = new PriorityQueue();
@@ -24,7 +24,7 @@ public class PriorityQueueTests
     [TestMethod]
     // Scenario: 
     // Expected Result: 
-    // Defect(s) Found: 
+    // Defect(s) Found: Corrected the defect in the Dequeue method to find the highest priority item instead of the lowest priority item.
     public void TestPriorityQueue_2()
     {
         var priorityQueue = new PriorityQueue();
