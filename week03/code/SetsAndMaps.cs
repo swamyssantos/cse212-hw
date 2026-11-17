@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Globalization;
 
 public static class SetsAndMaps
 {
@@ -21,8 +22,17 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        HashSet<string> wordSet = new(words);
+        List<string> pairs = new();
+        foreach (string word in words)
+        {
+            string reversed = $"{word[1]}{word[0]}";
+            if (word != reversed && wordSet.Contains(reversed) && word.CompareTo(reversed) < 0) 
+            {
+                pairs.Add($"{word} & {reversed}");
+            }
+        }
+        return pairs.ToArray();
     }
 
     /// <summary>
@@ -32,7 +42,8 @@ public static class SetsAndMaps
     /// degree earned and the value is the number of people that 
     /// have earned that degree.  The degree information is in
     /// the 4th column of the file.  There is no header row in the
-    /// file.
+    /// file. ok 
+    /// *** i did
     /// </summary>
     /// <param name="filename">The name of the file to read</param>
     /// <returns>fixed array of divisors</returns>
@@ -42,9 +53,16 @@ public static class SetsAndMaps
         foreach (var line in File.ReadLines(filename))
         {
             var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            string degree = fields[3].Trim().Trim();
+            if (degrees.ContainsKey(degree))
+            {
+                degrees[degree]++;
+            }
+            else
+            {
+                degrees[degree] = 1;
+            }
         }
-
         return degrees;
     }
 
@@ -66,8 +84,39 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        Dictionary<char, int> letters = new();
+        foreach (char letter in word1)
+        {
+            if (!char.IsWhiteSpace(letter))
+            {
+                char key = char.ToLowerInvariant(letter);
+                if (letters.ContainsKey(key))
+                {
+                    letters[key]++;
+                }
+                else
+                {
+                    letters[key] = 1;
+                }
+            }
+        }
+        foreach (char letter in word2)
+        {
+            if (!char.IsWhiteSpace(letter))
+            {
+                char key = char.ToLowerInvariant(letter);
+                if (!letters.ContainsKey(key))
+                {
+                    return false;
+                }
+                    letters[key]--;
+                    if (letters[key] < 0)
+                    {
+                       return false;
+                    }
+            }
+        }
+        return letters.Values.All(count => count == 0);
     }
 
     /// <summary>
@@ -96,11 +145,20 @@ public static class SetsAndMaps
 
         var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
 
+        List<string> earthquake = new();
+        foreach (var feature in featureCollection.Features)
+        {
+            string place = feature.Properties.Place;
+            double magnitude = feature.Properties.Mag;
+            earthquake.Add($"{place} - Mag {magnitude.ToString(CultureInfo.InvariantCulture)}"); // I used InvariantCulture to ensure consistent formatting of the magnitude
+        }
+
+
         // TODO Problem 5:
         // 1. Add code in FeatureCollection.cs to describe the JSON using classes and properties 
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+        return earthquake.ToArray();
     }
 }
